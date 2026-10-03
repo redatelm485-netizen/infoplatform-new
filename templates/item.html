@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_macros.html" import item_card with context %}
+{% block title %}{{ item.title }} — {{ site_name }}{% endblock %}
+{% block desc %}{{ item.summary }}{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <p class="crumbs">
+      <a href="{{ url_for('index') }}">الرئيسية</a> ›
+      {% if item.kind == 'lesson' %}<a href="{{ url_for('lessons', level=item.level) }}">الدروس</a>
+      {% elif item.kind == 'activity' %}<a href="{{ url_for('activities', level=item.level) }}">الأنشطة</a>
+      {% else %}<a href="{{ url_for('achievements') }}">الإنجازات</a>{% endif %}
+    </p>
+    <h1>{{ item.title }}</h1>
+    <div class="card-top">
+      <span class="badge badge-{{ item.kind }}">{{ kind_labels[item.kind] }}</span>
+      {% if item.level %}<span class="level">{{ level_labels[item.level] }}</span>{% endif %}
+    </div>
+  </div>
+</section>
+<section class="container section narrow">
+  {% if item.summary %}<p class="lead-dark">{{ item.summary }}</p>{% endif %}
+  <div class="prose">{{ item.content }}</div>
+  <div class="actions">
+    {% if item.link and item.link.lower().startswith(('http://', 'https://')) %}<a class="btn" href="{{ item.link }}" target="_blank" rel="noopener noreferrer">فتح الرابط المرفق ↗</a>{% endif %}
+    {% if is_admin %}<a class="btn btn-ghost" href="{{ url_for('admin_edit', item_id=item.id) }}">تعديل</a>{% endif %}
+  </div>
+</section>
+{% if related %}
+<section class="container section">
+  <h2 class="section-title">قد يهمّك أيضًا</h2>
+  <div class="grid">{% for it in related %}{{ item_card(it) }}{% endfor %}</div>
+</section>
+{% endif %}
+{% endblock %}

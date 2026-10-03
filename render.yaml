@@ -1,0 +1,22 @@
+# Render Blueprint — منصة عالم المعلوماتية (Flask + Gunicorn + SQLite)
+# ملاحظة: القرص الدائم (disk) يتطلب خطة مدفوعة. على الخطة المجانية نظام الملفات مؤقت
+# ويُفقد المحتوى المُضاف من لوحة التحكم ورسائل التواصل عند كل إعادة تشغيل أو نشر.
+services:
+  - type: web
+    name: alam-almaalomatiya
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 60
+    healthCheckPath: /healthz
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true      # يولّده Render عشوائيًا (لا تضعه في GitHub)
+      - key: ADMIN_PASSWORD_HASH
+        sync: false              # تُدخله أنت في لوحة Render: ناتج python make_admin_hash.py
+      - key: DATABASE_PATH
+        value: /var/data/database.db
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1

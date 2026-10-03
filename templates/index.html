@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% from "_macros.html" import item_card with context %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow">السنة الدراسية 2026/2027</p>
+      <h1>مرحبًا بك في عالم المعلوماتية</h1>
+      <p class="lead">دروس مبسّطة وأنشطة تطبيقية وبيئة برمجة ممتعة، كل ما تحتاجه لتتقدّم في المادة خطوة بخطوة.</p>
+      <form class="hero-search" action="{{ url_for('search') }}" method="get" role="search">
+        <input type="search" name="q" maxlength="80" placeholder="عن ماذا تبحث؟ مثال: الخوارزميات" aria-label="بحث عن درس">
+        <button class="btn btn-accent" type="submit">بحث</button>
+      </form>
+      <div class="hero-links">
+        <a class="btn btn-light" href="{{ url_for('lessons', level=2) }}">ابدأ بالدروس</a>
+        <a class="btn btn-outline-light" href="{{ url_for('scratch') }}">جرّب سكراش</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="code-win">
+        <div class="code-bar"><i></i><i></i><i></i></div>
+        <pre dir="ltr">when 🏁 clicked
+repeat 10
+  move 10 steps
+  say "Hello!"
+end</pre>
+      </div>
+      <span class="float f1">💻</span><span class="float f2">🧠</span><span class="float f3">⚙️</span>
+    </div>
+  </div>
+</section>
+
+<section class="container section">
+  <h2 class="section-title">تعريف بالموقع</h2>
+  <p class="about">هذه المنصة مكتبة تعليمية لمادة المعلوماتية لتلاميذ المتوسط. تجد فيها دروس كل مستوى وأنشطته التطبيقية، وروابط تعلّم البرمجة بسكراش، ومشاريع متميزة أنجزها التلاميذ.</p>
+</section>
+
+<section class="container section">
+  <h2 class="section-title">الأقسام</h2>
+  <div class="grid grid-3">
+    <a class="tile tile-1" href="{{ url_for('lessons', level=2) }}"><span class="tile-icon">📘</span><strong>دروس السنة الثانية</strong><small>{{ counts.get(('lesson', 2), 0) }} دروس</small></a>
+    <a class="tile tile-2" href="{{ url_for('activities', level=2) }}"><span class="tile-icon">✏️</span><strong>أنشطة السنة الثانية</strong><small>{{ counts.get(('activity', 2), 0) }} أنشطة</small></a>
+    <a class="tile tile-3" href="{{ url_for('lessons', level=3) }}"><span class="tile-icon">📗</span><strong>دروس السنة الثالثة</strong><small>{{ counts.get(('lesson', 3), 0) }} دروس</small></a>
+    <a class="tile tile-4" href="{{ url_for('activities', level=3) }}"><span class="tile-icon">🧩</span><strong>أنشطة السنة الثالثة</strong><small>{{ counts.get(('activity', 3), 0) }} أنشطة</small></a>
+    <a class="tile tile-5" href="{{ url_for('scratch') }}"><span class="tile-icon">🐱</span><strong>سكراش</strong><small>تعلّم البرمجة</small></a>
+    <a class="tile tile-6" href="{{ url_for('achievements') }}"><span class="tile-icon">🏆</span><strong>الإنجازات</strong><small>{{ counts.get(('achievement', None), 0) }} مشاريع</small></a>
+  </div>
+</section>
+
+{% if latest_lessons %}
+<section class="container section">
+  <div class="section-head"><h2>آخر الدروس</h2><a href="{{ url_for('search', kind='lesson') }}">عرض الكل ←</a></div>
+  <div class="grid">{% for it in latest_lessons %}{{ item_card(it) }}{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if latest_activities %}
+<section class="container section">
+  <div class="section-head"><h2>آخر الأنشطة</h2><a href="{{ url_for('search', kind='activity') }}">عرض الكل ←</a></div>
+  <div class="grid">{% for it in latest_activities %}{{ item_card(it) }}{% endfor %}</div>
+</section>
+{% endif %}
+
+<section class="container section">
+  <div class="banner">
+    <div>
+      <h2>🐱 تعلّم البرمجة بسكراش</h2>
+      <p>ابنِ ألعابك وقصصك التفاعلية بالكتل البرمجية، من الهاتف أو من الحاسوب.</p>
+    </div>
+    <a class="btn btn-light" href="{{ url_for('scratch') }}">ادخل إلى القسم</a>
+  </div>
+</section>
+{% endblock %}

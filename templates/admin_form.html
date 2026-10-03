@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ 'تعديل' if editing else 'إضافة' }} محتوى — {{ site_name }}{% endblock %}
+{% block content %}
+<section class="container section narrow">
+  <h1>{{ 'تعديل المحتوى' if editing else 'إضافة محتوى جديد' }}</h1>
+  <form class="form" method="post" data-validate>
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <label>النوع
+      <select name="kind" id="kind-select">
+        {% for k, label in kind_labels.items() %}
+          <option value="{{ k }}" {{ 'selected' if item.kind == k }}>{{ label }}</option>
+        {% endfor %}
+      </select></label>
+    <label id="level-field">المستوى
+      <select name="level">
+        {% for l, label in level_labels.items() %}
+          <option value="{{ l }}" {{ 'selected' if item.level == l }}>{{ label }}</option>
+        {% endfor %}
+      </select></label>
+    <label>العنوان
+      <input type="text" name="title" required minlength="3" maxlength="150" value="{{ item.title }}"></label>
+    <label>الملخص (يظهر في البطاقة)
+      <textarea name="summary" rows="2" maxlength="300">{{ item.summary }}</textarea></label>
+    <label>المحتوى (كل سطر جديد يظهر كسطر)
+      <textarea name="content" rows="10" maxlength="20000">{{ item.content }}</textarea></label>
+    <label>رابط مرفق (اختياري، يبدأ بـ https://)
+      <input type="url" name="link" maxlength="500" value="{{ item.link }}" dir="ltr"></label>
+    <div class="actions">
+      <button class="btn" type="submit">حفظ</button>
+      <a class="btn btn-ghost" href="{{ url_for('admin_dashboard') }}">إلغاء</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

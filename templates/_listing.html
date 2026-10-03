@@ -1,0 +1,29 @@
+{# قائمة دروس أو أنشطة لمستوى معيّن: items, level, kind, q, pager #}
+{% from "_macros.html" import item_card, render_pager with context %}
+{% set plural = 'الدروس' if kind == 'lesson' else 'الأنشطة' %}
+{% set endpoint = 'lessons' if kind == 'lesson' else 'activities' %}
+<section class="page-head">
+  <div class="container">
+    <p class="crumbs"><a href="{{ url_for('index') }}">الرئيسية</a> › {{ plural }}</p>
+    <h1>{{ plural }} — {{ level_labels[level] }}</h1>
+    <div class="tabs">
+      {% for l in (2, 3) %}
+        <a class="tab {{ 'active' if l == level }}" href="{{ url_for(endpoint, level=l) }}">{{ level_labels[l] }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="container section">
+  <form class="filter-bar" method="get" role="search">
+    <input type="search" name="q" value="{{ q }}" maxlength="80" placeholder="ابحث في {{ plural }}…" aria-label="بحث">
+    <button class="btn" type="submit">بحث</button>
+    {% if q %}<a class="btn btn-ghost" href="{{ url_for(endpoint, level=level) }}">مسح</a>{% endif %}
+  </form>
+  <p class="result-count">{{ pager.total }} نتيجة</p>
+  {% if items %}
+    <div class="grid">{% for it in items %}{{ item_card(it) }}{% endfor %}</div>
+    {{ render_pager(pager) }}
+  {% else %}
+    <p class="empty">{{ 'لا توجد نتائج مطابقة لبحثك.' if q else 'لا يوجد محتوى هنا بعد.' }}</p>
+  {% endif %}
+</section>

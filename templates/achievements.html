@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% from "_macros.html" import item_card with context %}
+{% block title %}الإنجازات — {{ site_name }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container">
+  <h1>🏆 الإنجازات</h1>
+  <p class="lead-dark">النجاح لا يأتي صدفة، بل هو ثمرة العمل والمثابرة.</p>
+</div></section>
+<section class="container section">
+  {% if items %}<div class="grid">{% for it in items %}{{ item_card(it) }}{% endfor %}</div>
+  {% else %}<p class="empty">لم تُضف إنجازات بعد.</p>{% endif %}
+</section>
+{% endblock %}

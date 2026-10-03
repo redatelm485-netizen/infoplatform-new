@@ -1,0 +1,7 @@
+# يفتح طلبات تحديث تلقائية عند صدور إصدارات جديدة أو ثغرات معروفة في التبعيات
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"

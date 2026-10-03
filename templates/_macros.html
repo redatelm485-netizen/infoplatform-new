@@ -1,0 +1,30 @@
+{# مكونات قابلة لإعادة الاستعمال: بطاقة عنصر + ترقيم صفحات #}
+{% set KIND_ICONS = {'lesson': '📘', 'activity': '✏️', 'achievement': '🏆'} %}
+
+{% macro item_card(it) %}
+<article class="card card-{{ it.kind }}">
+  <div class="card-icon" aria-hidden="true">{{ {'lesson': '📘', 'activity': '✏️', 'achievement': '🏆'}[it.kind] }}</div>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="badge badge-{{ it.kind }}">{{ kind_labels[it.kind] }}</span>
+      {% if it.level %}<span class="level">{{ level_labels[it.level] }}</span>{% endif %}
+    </div>
+    <h3><a href="{{ url_for('item_detail', item_id=it.id) }}">{{ it.title }}</a></h3>
+    <p>{{ it.summary }}</p>
+    <a class="btn btn-sm" href="{{ url_for('item_detail', item_id=it.id) }}">عرض</a>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro render_pager(p) %}
+{% if p.pages > 1 %}
+<nav class="pager" aria-label="الصفحات">
+  {% if p.page > 1 %}<a class="pg" href="{{ page_url(p.page - 1) }}" rel="prev">السابق</a>{% endif %}
+  {% for n in range(1, p.pages + 1) %}
+    {% if n == p.page %}<span class="pg current" aria-current="page">{{ n }}</span>
+    {% else %}<a class="pg" href="{{ page_url(n) }}">{{ n }}</a>{% endif %}
+  {% endfor %}
+  {% if p.page < p.pages %}<a class="pg" href="{{ page_url(p.page + 1) }}" rel="next">التالي</a>{% endif %}
+</nav>
+{% endif %}
+{% endmacro %}

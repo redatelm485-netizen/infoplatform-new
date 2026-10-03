@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}لوحة التحكم — {{ site_name }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container admin-head">
+  <h1>⚙️ لوحة التحكم</h1>
+  <div class="actions">
+    <a class="btn" href="{{ url_for('admin_new', kind='lesson') }}">+ درس</a>
+    <a class="btn btn-accent" href="{{ url_for('admin_new', kind='activity') }}">+ نشاط</a>
+    <a class="btn btn-ghost" href="{{ url_for('admin_new', kind='achievement') }}">+ إنجاز</a>
+    <form method="post" action="{{ url_for('admin_logout') }}">
+      <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+      <button class="btn btn-ghost" type="submit">خروج</button>
+    </form>
+  </div>
+</div></section>
+<section class="container section">
+  <div class="stats">
+    <div class="stat"><b>{{ stats.total }}</b><span>إجمالي المحتوى</span></div>
+    <div class="stat"><b>{{ stats.get('lesson', 0) }}</b><span>دروس</span></div>
+    <div class="stat"><b>{{ stats.get('activity', 0) }}</b><span>أنشطة</span></div>
+    <div class="stat"><b>{{ stats.get('achievement', 0) }}</b><span>إنجازات</span></div>
+    <div class="stat"><b>{{ stats.messages }}</b><span>رسائل</span></div>
+  </div>
+
+  <h2 class="section-title">إدارة المحتوى</h2>
+  <form class="filter-bar" method="get" role="search">
+    <input type="search" name="q" value="{{ q }}" maxlength="80" placeholder="ابحث بالعنوان…" aria-label="بحث">
+    <select name="kind" aria-label="النوع">
+      <option value="">كل الأنواع</option>
+      {% for k, label in kind_labels.items() %}<option value="{{ k }}" {{ 'selected' if k == fkind }}>{{ label }}</option>{% endfor %}
+    </select>
+    <button class="btn" type="submit">تصفية</button>
+    {% if q or fkind %}<a class="btn btn-ghost" href="{{ url_for('admin_dashboard') }}">مسح</a>{% endif %}
+  </form>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>العنوان</th><th>النوع</th><th>المستوى</th><th>إجراءات</th></tr></thead>
+      <tbody>
+      {% for it in items %}
+        <tr>
+          <td><a href="{{ url_for('item_detail', item_id=it.id) }}">{{ it.title }}</a></td>
+          <td><span class="badge badge-{{ it.kind }}">{{ kind_labels[it.kind] }}</span></td>
+          <td>{{ level_labels[it.level] if it.level else '—' }}</td>
+          <td class="row-actions">
+            <a href="{{ url_for('admin_edit', item_id=it.id) }}">تعديل</a>
+            <form method="post" action="{{ url_for('admin_delete', item_id=it.id) }}" data-confirm="هل تريد حذف هذا العنصر نهائيًا؟">
+              <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+              <button class="link-danger" type="submit">حذف</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="4" class="empty">لا توجد عناصر مطابقة.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-title">آخر الرسائل</h2>
+  {% for m in messages %}
+    <article class="card msg">
+      <div class="card-body">
+        <strong>{{ m.name }}</strong> <span class="muted" dir="ltr">{{ m.email }}</span>
+        <small class="muted">{{ m.created_at }}</small>
+        <p class="prose">{{ m.message }}</p>
+      </div>
+    </article>
+  {% else %}<p class="empty">لا توجد رسائل.</p>{% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}دخول المدير — {{ site_name }}{% endblock %}
+{% block content %}
+<section class="container section narrow">
+  <h1>دخول المدير</h1>
+  <form class="form" method="post">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <label>كلمة المرور
+      <input type="password" name="password" required maxlength="256" autocomplete="current-password"></label>
+    <button class="btn" type="submit">دخول</button>
+  </form>
+</section>
+{% endblock %}

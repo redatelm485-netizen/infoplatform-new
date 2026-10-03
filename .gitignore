@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# الأسرار — لا ترفعها أبدًا
+.env
+.env.*
+*.pem
+*.key
+
+# قاعدة البيانات ونسخها الاحتياطية (تحتوي رسائل الزوار) — لا ترفعها إلى GitHub
+database.db
+database.db-wal
+database.db-shm
+*.db
+*.sqlite
+*.sqlite3
+*.bak
+*.backup
+*.dump
+
+# ملفات حفظ المحررات
+*.save
+*~

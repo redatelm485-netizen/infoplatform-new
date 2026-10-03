@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_macros.html" import item_card, render_pager with context %}
+{% block title %}المكتبة والبحث — {{ site_name }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container">
+  <h1>🔎 مكتبة الدروس والأنشطة</h1>
+  <p class="lead-dark">ابحث بكلمة، أو صفِّ حسب المستوى ونوع المحتوى.</p>
+</div></section>
+<section class="container section">
+  <form class="filter-bar filter-bar-wide" method="get" action="{{ url_for('search') }}" role="search">
+    <input type="search" name="q" value="{{ q }}" maxlength="80" placeholder="كلمة البحث…" aria-label="كلمة البحث">
+    <select name="level" aria-label="المستوى">
+      <option value="">كل المستويات</option>
+      {% for l, label in level_labels.items() %}<option value="{{ l }}" {{ 'selected' if l == level }}>{{ label }}</option>{% endfor %}
+    </select>
+    <select name="kind" aria-label="النوع">
+      <option value="">دروس وأنشطة</option>
+      <option value="lesson" {{ 'selected' if kind == 'lesson' }}>دروس فقط</option>
+      <option value="activity" {{ 'selected' if kind == 'activity' }}>أنشطة فقط</option>
+    </select>
+    <button class="btn" type="submit">تطبيق</button>
+    {% if q or kind or level %}<a class="btn btn-ghost" href="{{ url_for('search') }}">إعادة ضبط</a>{% endif %}
+  </form>
+  <p class="result-count">{{ pager.total }} نتيجة</p>
+  {% if results %}
+    <div class="grid">{% for it in results %}{{ item_card(it) }}{% endfor %}</div>
+    {{ render_pager(pager) }}
+  {% else %}<p class="empty">لم نجد نتائج مطابقة. جرّب كلمة أخرى أو غيّر الفلاتر.</p>{% endif %}
+</section>
+{% endblock %}

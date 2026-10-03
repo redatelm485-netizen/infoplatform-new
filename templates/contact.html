@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}تواصل — {{ site_name }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container">
+  <h1>معلومات وتواصل</h1>
+  <p class="lead-dark">لديك سؤال أو اقتراح؟ اكتب لنا وسنجيبك في أقرب وقت.</p>
+</div></section>
+<section class="container section narrow">
+  <form class="form" method="post" data-validate>
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <label>الاسم
+      <input type="text" name="name" required minlength="2" maxlength="80" value="{{ form.name }}" autocomplete="name"></label>
+    <label>البريد الإلكتروني
+      <input type="email" name="email" required maxlength="120" value="{{ form.email }}" autocomplete="email" dir="ltr"></label>
+    <label>الرسالة
+      <textarea name="message" rows="6" required minlength="10" maxlength="2000" data-counter="#msg-count">{{ form.message }}</textarea></label>
+    <small class="muted"><span id="msg-count">0</span> / 2000</small>
+    <button class="btn" type="submit">إرسال</button>
+  </form>
+</section>
+{% endblock %}

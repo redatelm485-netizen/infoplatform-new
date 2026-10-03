@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}البرمجة بسكراش — {{ site_name }}{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container">
+  <h1>🐱 البرمجة بسكراش</h1>
+  <p class="lead-dark">سكراش بيئة مجانية من معهد MIT تتيح لك صنع الألعاب والقصص بتركيب الكتل البرمجية.</p>
+</div></section>
+<section class="container section">
+  <h2 class="section-title">اختر طريقة التشغيل</h2>
+  <div class="grid">
+    <article class="card"><div class="card-icon" aria-hidden="true">🌐</div><div class="card-body"><span class="badge badge-lesson">الأسهل</span>
+      <h3>المحرر عبر المتصفح</h3><p>يعمل على الحاسوب والهاتف اللوحي دون تثبيت، ويتطلب اتصالًا بالإنترنت.</p>
+      <a class="btn btn-sm" href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener noreferrer">افتح المحرر ↗</a></div></article>
+    <article class="card"><div class="card-icon" aria-hidden="true">💾</div><div class="card-body"><span class="badge badge-activity">بدون إنترنت</span>
+      <h3>تطبيق سكراش للحاسوب</h3><p>حمّله مرة واحدة واشتغل في أي وقت دون اتصال.</p>
+      <a class="btn btn-sm" href="https://scratch.mit.edu/download" target="_blank" rel="noopener noreferrer">صفحة التحميل ↗</a></div></article>
+    <article class="card"><div class="card-icon" aria-hidden="true">🔭</div><div class="card-body"><span class="badge badge-achievement">للاستكشاف</span>
+      <h3>موقع سكراش الرسمي</h3><p>تصفّح مشاريع الآخرين وتعلّم منها، وأنشئ حسابك لحفظ أعمالك.</p>
+      <a class="btn btn-sm" href="https://scratch.mit.edu/" target="_blank" rel="noopener noreferrer">زيارة الموقع ↗</a></div></article>
+  </div>
+</section>
+<section class="container section narrow">
+  <h2 class="section-title">مشروعك الأول في 4 خطوات</h2>
+  <ol class="steps">
+    <li>افتح المحرر واختر الشخصية (Sprite).</li>
+    <li>من تبويب «الحركة» اسحب كتلة «تحرّك 10 خطوات».</li>
+    <li>أضف كتلة «عندما يُنقر على العلم الأخضر» في الأعلى.</li>
+    <li>اضغط العلم الأخضر وشاهد شخصيتك تتحرك!</li>
+  </ol>
+</section>
+{% endblock %}

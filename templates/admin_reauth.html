@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}تأكيد كلمة المرور — {{ site_name }}{% endblock %}
+{% block content %}
+<section class="container section narrow">
+  <h1>تأكيد كلمة المرور</h1>
+  <p class="lead-dark">هذه العملية حساسة (مثل الحذف). أدخل كلمة المرور مجددًا للمتابعة، ثم كرّر العملية.</p>
+  <form class="form" method="post">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <label>كلمة المرور
+      <input type="password" name="password" required maxlength="256" autocomplete="current-password"></label>
+    <div class="actions">
+      <button class="btn" type="submit">تأكيد</button>
+      <a class="btn btn-ghost" href="{{ url_for('admin_dashboard') }}">إلغاء</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
