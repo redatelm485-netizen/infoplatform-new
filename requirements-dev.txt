@@ -1,3 +1,3 @@
 # أدوات التطوير والفحص فقط — لا تُثبَّت على Render (buildCommand يقرأ requirements.txt وحده)
 -r requirements.txt
-pip-audit>=2.7
+pip-audit>=2.10.1
